@@ -17,7 +17,7 @@ import java.util.Date;
  *
  * @author tulio
  */
-public class ConverteData {
+public class ConverterData {
 
    static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     Calendar cal = Calendar.getInstance();
