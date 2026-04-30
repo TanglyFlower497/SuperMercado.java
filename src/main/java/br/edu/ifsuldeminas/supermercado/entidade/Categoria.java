@@ -8,34 +8,34 @@ package br.edu.ifsuldeminas.supermercado.entidade;
  *
  * @author 12421698650
  */
+
 public class Categoria {
-    private Integer codCategoria;
-    private String nome;
-    private String descricao;
 
-    public Integer getCodCategoria() {
-        return codCategoria;
+    private Integer codigoCategoria;
+    private String nomeCategoria;
+    private String descricaoCategoria;
+
+    public Integer getCodigoCategoria() {
+        return codigoCategoria;
     }
 
-    public void setCodCategoria(Integer codCategoria) {
-        this.codCategoria = codCategoria;
+    public void setCodigoCategoria(Integer codigoCategoria) {
+        this.codigoCategoria = codigoCategoria;
     }
 
-    public String getNome() {
-        return nome;
+    public String getNomeCategoria() {
+        return nomeCategoria;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setNomeCategoria(String nomeCategoria) {
+        this.nomeCategoria = nomeCategoria;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public String getDescricaoCategoria() {
+        return descricaoCategoria;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setDescricaoCategoria(String descricaoCategoria) {
+        this.descricaoCategoria = descricaoCategoria;
     }
-    
-    
 }

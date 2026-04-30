@@ -9,7 +9,23 @@ package br.edu.ifsuldeminas.supermercado.entidade;
  * @author 12421698650
  */
 public class FormaPagamento {
-    private Integer codFormaPagamento;
-    private String descricao;
-    private String ativo;
+
+    private Integer codigoFormaPagamento;
+    private String descricaoFormaPagamento;
+
+    public Integer getCodigoFormaPagamento() {
+        return codigoFormaPagamento;
+    }
+
+    public void setCodigoFormaPagamento(Integer codigoFormaPagamento) {
+        this.codigoFormaPagamento = codigoFormaPagamento;
+    }
+
+    public String getDescricaoFormaPagamento() {
+        return descricaoFormaPagamento;
+    }
+
+    public void setDescricaoFormaPagamento(String descricaoFormaPagamento) {
+        this.descricaoFormaPagamento = descricaoFormaPagamento;
+    }
 }

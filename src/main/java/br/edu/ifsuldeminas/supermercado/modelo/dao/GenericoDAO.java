@@ -150,3 +150,6 @@ Tratamento de Exceções e Recursos: A classe implementa blocos try-catch-finall
 declarações e conjuntos de resultados sejam fechados corretamente, mesmo em caso de erro, evitando vazamentos de recursos.
 Esta classe é um exemplo robusto de como uma DAO genérica pode ser estruturada em Java para facilitar a manutenção, 
 reutilização e segurança em aplicações que interagem com bancos de dados.*/
+
+
+

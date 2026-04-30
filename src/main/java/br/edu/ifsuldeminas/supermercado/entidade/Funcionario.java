@@ -1,13 +1,41 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package br.edu.ifsuldeminas.supermercado.entidade;
 
-/**
- *
- * @author 12421698650
- */
 public class Funcionario {
-    
+
+    private Integer codigoFuncionario;
+    private String nomeFuncionario;
+    private String cargoFuncionario;
+    private Double salarioFuncionario;
+
+    public Integer getCodigoFuncionario() {
+        return codigoFuncionario;
+    }
+
+    public void setCodigoFuncionario(Integer codigoFuncionario) {
+        this.codigoFuncionario = codigoFuncionario;
+    }
+
+    public String getNomeFuncionario() {
+        return nomeFuncionario;
+    }
+
+    public void setNomeFuncionario(String nomeFuncionario) {
+        this.nomeFuncionario = nomeFuncionario;
+    }
+
+    public String getCargoFuncionario() {
+        return cargoFuncionario;
+    }
+
+    public void setCargoFuncionario(String cargoFuncionario) {
+        this.cargoFuncionario = cargoFuncionario;
+    }
+
+    public Double getSalarioFuncionario() {
+        return salarioFuncionario;
+    }
+
+    public void setSalarioFuncionario(Double salarioFuncionario) {
+        this.salarioFuncionario = salarioFuncionario;
+    }
 }

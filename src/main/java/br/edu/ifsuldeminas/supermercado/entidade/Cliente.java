@@ -1,88 +1,50 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package br.edu.ifsuldeminas.supermercado.entidade;
 
-import java.sql.Date;
-
-/**
- *
- * @author 12421698650
- */
 public class Cliente {
-    private Integer codCliente;
-    private String nome;
-    private String cpf;
-    private String telefone;
-    private String email;
-    private String dataNascimento;
-    private String dataCadastro;
-    private String endereco;
 
-    public Integer getCodCliente() {
-        return codCliente;
+    private Integer codigoCliente;
+    private String nomeCliente;
+    private String cpfCliente;
+    private String telefoneCliente;
+    private String emailCliente;
+
+    public Integer getCodigoCliente() {
+        return codigoCliente;
     }
 
-    public void setCodCliente(Integer codCliente) {
-        this.codCliente = codCliente;
+    public void setCodigoCliente(Integer codigoCliente) {
+        this.codigoCliente = codigoCliente;
     }
 
-    public String getNome() {
-        return nome;
+    public String getNomeCliente() {
+        return nomeCliente;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setNomeCliente(String nomeCliente) {
+        this.nomeCliente = nomeCliente;
     }
 
-    public String getCpf() {
-        return cpf;
+    public String getCpfCliente() {
+        return cpfCliente;
     }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
+    public void setCpfCliente(String cpfCliente) {
+        this.cpfCliente = cpfCliente;
     }
 
-    public String getTelefone() {
-        return telefone;
+    public String getTelefoneCliente() {
+        return telefoneCliente;
     }
 
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
+    public void setTelefoneCliente(String telefoneCliente) {
+        this.telefoneCliente = telefoneCliente;
     }
 
-    public String getEmail() {
-        return email;
+    public String getEmailCliente() {
+        return emailCliente;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setEmailCliente(String emailCliente) {
+        this.emailCliente = emailCliente;
     }
-
-    public String getDataNascimento() {
-        return dataNascimento;
-    }
-
-    public void setDataNascimento(String dataNascimento) {
-        this.dataNascimento = dataNascimento;
-    }
-
-    public String getDataCadastro() {
-        return dataCadastro;
-    }
-
-    public void setDataCadastro(String dataCadastro) {
-        this.dataCadastro = dataCadastro;
-    }
-
-    public String getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
-    }
-    
-    
 }
