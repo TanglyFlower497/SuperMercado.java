@@ -10,7 +10,7 @@ import java.util.List;
 
 
 public class ClienteDao extends GenericoDAO<Cliente>{
-
+     
     public void salvar(Cliente obj){
         String sql ="INSERT INTO cliente(nome, cpf, telefone, email) VALUES(?,?,?,?)";
         save(sql, obj.getNomeCliente(), obj.getCpfCliente(), obj.getTelefoneCliente(), obj.getEmailCliente());
@@ -27,7 +27,7 @@ public class ClienteDao extends GenericoDAO<Cliente>{
     }
 
     public List<Cliente> buscarTodos(){
-        String sql = "SELECT * FROM cliente";
+        String sql = "SELECT * FROM CLIENTE";
         return buscarTodos(sql, new ClienteRowMapper());
     }
 
