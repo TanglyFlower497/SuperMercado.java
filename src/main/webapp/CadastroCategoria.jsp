@@ -24,8 +24,8 @@
     <input type="hidden" name="opcao" value="${opcao}"/>
     <input type="hidden" name="codigoCategoria" value="${codigoCategoria}"/>
 
-    <p><label>Nome:</label> <input type="text" name="nomeCategoria" value="${nomeCategoria}" size="40"></p>
-    <p><label>Descrição:</label> <input type="text" name="descricaoCategoria" value="${descricaoCategoria}" size="50"></p>
+    <p><label>Nome:</label> <input type="text" name="nomeCategoria" required="" value="${nomeCategoria}" size="40"></p>
+    <p><label>Descrição:</label> <input type="text" name="descricaoCategoria" required="" value="${descricaoCategoria}" size="50"></p>
 
     <input type="submit" value="Salvar" name="Salvar" style="float:left; margin-right: 3px"/>
 </form>
@@ -69,6 +69,8 @@
         <form method="get" action="${pageContext.request.contextPath}${URL_BASE}/CategoriaControlador">
             <input type="hidden" name="opcao" value="enviarExcluir"/>
             <input type="hidden" name="codigoCategoria" value="${cat.codigoCategoria}"/>
+             <input type="hidden" name="nomeCategoria" value="${cat.nomeCategoria}"/>
+            <input type="hidden" name="descricaoCategoria" value="${cat.descricaoCategoria}"/>
             <button type="submit">Excluir</button>
         </form>
     </td>

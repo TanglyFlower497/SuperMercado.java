@@ -10,7 +10,7 @@ import java.sql.SQLException;
 
 public class ConnectionFactory {
     
-    private static final String DB_URL = "jdbc:mysql://localhost:3307/supermercado?useSSL=false";
+    private static final String DB_URL = "jdbc:mysql://localhost:3307/supermercado2?useSSL=false";
     private static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
     private static final String DB_USER = "root";
     private static final String DB_PASSWORD = "1234";

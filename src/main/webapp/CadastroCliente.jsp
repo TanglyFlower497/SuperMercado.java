@@ -24,8 +24,8 @@
     <input type="hidden" name="opcao" value="${opcao}"/>
     <input type="hidden" name="codigoCliente" value="${codigoCliente}"/>
 
-    <p><label>Nome:</label> <input type="text" name="nomeCliente" value="${nomeCliente}" size="40"></p>
-    <p><label>CPF:</label> <input type="text" name="cpfCliente" value="${cpfCliente}" size="20"></p>
+    <p><label>Nome:</label> <input type="text" name="nomeCliente" required="" value="${nomeCliente}" size="40"></p>
+    <p><label>CPF:</label> <input type="text" name="cpfCliente" required="" value="${cpfCliente}" size="20"></p>
     <p><label>Telefone:</label> <input type="text" name="telefoneCliente" value="${telefoneCliente}" size="20"></p>
     <p><label>Email:</label> <input type="text" name="emailCliente" value="${emailCliente}" size="30"></p>
 
@@ -77,6 +77,10 @@
         <form method="get" action="${pageContext.request.contextPath}${URL_BASE}/ClienteControlador">
             <input type="hidden" name="opcao" value="enviarExcluir"/>
             <input type="hidden" name="codigoCliente" value="${c.codigoCliente}"/>
+            <input type="hidden" name="nomeCliente" value="${c.nomeCliente}"/>
+            <input type="hidden" name="cpfCliente" value="${c.cpfCliente}"/>
+            <input type="hidden" name="telefoneCliente" value="${c.telefoneCliente}"/>
+            <input type="hidden" name="emailCliente" value="${c.emailCliente}"/>
             <button type="submit">Excluir</button>
         </form>
     </td>

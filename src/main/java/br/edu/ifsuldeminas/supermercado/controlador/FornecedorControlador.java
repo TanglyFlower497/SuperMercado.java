@@ -118,6 +118,9 @@ public class FornecedorControlador extends HttpServlet {
     protected void enviarExcluir(HttpServletRequest request, HttpServletResponse response, String codigo, String nome, String cnpj, String tel, String email) throws ServletException, IOException {
         request.setAttribute("codigoFornecedor", codigo);
         request.setAttribute("nomeFornecedor", nome);
+        request.setAttribute("cnpjFornecedor", cnpj);
+        request.setAttribute("telefoneFornecedor", tel);
+        request.setAttribute("emailFornecedor", email);
         request.setAttribute("opcao", "executarExcluir");
         encaminharPagina(request, response);
     }

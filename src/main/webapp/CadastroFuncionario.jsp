@@ -22,17 +22,17 @@
 
             <p>
                 <label>Nome:</label> 
-                <input type="text" name="nomeFuncionario" value="${nomeFuncionario}" size="40">
+                <input type="text" name="nomeFuncionario" required="" value="${nomeFuncionario}" size="40">
             </p>
 
             <p>
                 <label>Cargo:</label> 
-                <input type="text" name="cargoFuncionario" value="${cargoFuncionario}" size="30">
+                <input type="text" name="cargoFuncionario" required="" value="${cargoFuncionario}" size="30">
             </p>
 
             <p>
                 <label>Salário:</label> 
-                <input type="text" name="salarioFuncionario" value="${salarioFuncionario}" size="15">
+                <input type="number"  name="salarioFuncionario" required="" value="${salarioFuncionario}" size="15">
             </p>
 
             <input type="submit" value="Salvar" name="Salvar" style="float:left; margin-right: 3px"/>

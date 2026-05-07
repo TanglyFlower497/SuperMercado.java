@@ -24,10 +24,10 @@
     <input type="hidden" name="opcao" value="${opcao}"/>
     <input type="hidden" name="codigoFornecedor" value="${codigoFornecedor}"/>
 
-    <p><label>Nome:</label> <input type="text" name="nomeFornecedor" value="${nomeFornecedor}" size="40"></p>
-    <p><label>CNPJ:</label> <input type="text" name="cnpjFornecedor" value="${cnpjFornecedor}" size="20"></p>
-    <p><label>Telefone:</label> <input type="text" name="telefoneFornecedor" value="${telefoneFornecedor}" size="20"></p>
-    <p><label>Email:</label> <input type="text" name="emailFornecedor" value="${emailFornecedor}" size="30"></p>
+    <p><label>Nome:</label> <input type="text" name="nomeFornecedor"  required="" value="${nomeFornecedor}" size="40"></p>
+    <p><label>CNPJ:</label> <input type="text" name="cnpjFornecedor" required="" value="${cnpjFornecedor}" size="20"></p>
+    <p><label>Telefone:</label> <input type="text" name="telefoneFornecedor" required="" value="${telefoneFornecedor}" size="20"></p>
+    <p><label>Email:</label> <input type="text" name="emailFornecedor" required="" value="${emailFornecedor}" size="30"></p>
 
     <input type="submit" value="Salvar" style="float:left; margin-right: 3px"/>
 </form>
@@ -77,6 +77,10 @@
         <form method="get" action="${pageContext.request.contextPath}${URL_BASE}/FornecedorControlador">
             <input type="hidden" name="opcao" value="enviarExcluir"/>
             <input type="hidden" name="codigoFornecedor" value="${f.codigoFornecedor}"/>
+            <input type="hidden" name="nomeFornecedor" value="${f.nomeFornecedor}"/>
+            <input type="hidden" name="cnpjFornecedor" value="${f.cnpjFornecedor}"/>
+            <input type="hidden" name="telefoneFornecedor" value="${f.telefoneFornecedor}"/>
+            <input type="hidden" name="emailFornecedor" value="${f.emailFornecedor}"/>
             <button type="submit">Excluir</button>
         </form>
     </td>

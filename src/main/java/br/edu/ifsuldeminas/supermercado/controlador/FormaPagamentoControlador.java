@@ -117,6 +117,7 @@ public class FormaPagamentoControlador extends HttpServlet {
             throws ServletException, IOException {
 
         request.setAttribute("codigoFormaPagamento", codigoFormaPagamento);
+         request.setAttribute("descricaoFormaPagamento", descricaoFormaPagamento);
         request.setAttribute("opcao", "executarExcluir");
 
         encaminharPagina(request,response);
