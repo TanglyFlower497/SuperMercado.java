@@ -34,6 +34,7 @@
         <li><a href="${pageContext.request.contextPath}${URL_BASE}/VendaControlador?opcao=cancelar">Venda</a></li>
         <li><a href="${pageContext.request.contextPath}${URL_BASE}/ItensvendaControlador?opcao=cancelar">Itens Venda</a></li>
         <li><a href="${pageContext.request.contextPath}${URL_BASE}/ItenscompraControlador?opcao=cancelar">Itens Compra</a></li>
+        <li><a href="${pageContext.request.contextPath}/Relatorios.jsp">Relatórios</a></li>
         <li><a href="${pageContext.request.contextPath}${URL_BASE}/LoginControlador">Logout (${sessionScope.usuarioLogado.nomeUsuario})</a></li>
         
         

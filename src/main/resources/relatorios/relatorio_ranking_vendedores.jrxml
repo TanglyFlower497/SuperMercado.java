@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="relatorio_ranking_vendedores" pageWidth="595" pageHeight="842" columnWidth="555"
+              leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+
+    <parameter name="DATA_INICIO" class="java.sql.Date"/>
+    <parameter name="DATA_FIM" class="java.sql.Date"/>
+    <parameter name="USUARIO_EMISSOR" class="java.lang.String"/>
+
+    <queryString>
+        <![CDATA[
+        SELECT f.nome AS vendedor,
+               f.cargo,
+               COUNT(v.codVenda) AS qtdVendas,
+               COALESCE(SUM(v.total), 0) AS bruto,
+               COALESCE(SUM(v.desconto), 0) AS descontos,
+               COALESCE(SUM(v.total - v.desconto), 0) AS liquido,
+               COALESCE(AVG(v.total - v.desconto), 0) AS ticketMedio
+        FROM funcionario f
+        INNER JOIN venda v ON f.codFuncionario = v.codFuncionario
+        WHERE DATE(v.data) BETWEEN $P{DATA_INICIO} AND $P{DATA_FIM}
+        GROUP BY f.codFuncionario, f.nome, f.cargo
+        ORDER BY liquido DESC
+        ]]>
+    </queryString>
+
+    <field name="vendedor" class="java.lang.String"/>
+    <field name="cargo" class="java.lang.String"/>
+    <field name="qtdVendas" class="java.lang.Long"/>
+    <field name="bruto" class="java.lang.Double"/>
+    <field name="descontos" class="java.lang.Double"/>
+    <field name="liquido" class="java.lang.Double"/>
+    <field name="ticketMedio" class="java.lang.Double"/>
+
+    <variable name="TOTAL_LIQUIDO" class="java.lang.Double" calculation="Sum">
+        <variableExpression><![CDATA[$F{liquido}]]></variableExpression>
+    </variable>
+
+    <title>
+        <band height="70">
+            <rectangle>
+                <reportElement x="0" y="0" width="555" height="62" backcolor="#2C3E50"/>
+            </rectangle>
+            <staticText>
+                <reportElement x="15" y="10" width="525" height="22" forecolor="#FFFFFF"/>
+                <textElement><font size="15" isBold="true"/></textElement>
+                <text><![CDATA[ATACADÃO - 02. RANKING DE DESEMPENHO DE VENDEDORES]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="15" y="36" width="525" height="18" forecolor="#ECF0F1"/>
+                <textElement><font size="10"/></textElement>
+                <textFieldExpression><![CDATA["Período: " + new java.text.SimpleDateFormat("dd/MM/yyyy").format($P{DATA_INICIO}) + " a " + new java.text.SimpleDateFormat("dd/MM/yyyy").format($P{DATA_FIM}) + " | Emitido por: " + $P{USUARIO_EMISSOR}]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+
+    <columnHeader>
+        <band height="25">
+            <staticText><reportElement mode="Opaque" x="0" y="0" width="165" height="25" backcolor="#2ECC71" forecolor="#FFFFFF"/><textElement verticalAlignment="Middle"><font isBold="true"/></textElement><text><![CDATA[  Vendedor]]></text></staticText>
+            <staticText><reportElement mode="Opaque" x="165" y="0" width="55" height="25" backcolor="#2ECC71" forecolor="#FFFFFF"/><textElement textAlignment="Center" verticalAlignment="Middle"><font isBold="true"/></textElement><text><![CDATA[Vendas]]></text></staticText>
+            <staticText><reportElement mode="Opaque" x="220" y="0" width="85" height="25" backcolor="#2ECC71" forecolor="#FFFFFF"/><textElement textAlignment="Right" verticalAlignment="Middle"><font isBold="true"/></textElement><text><![CDATA[Bruto]]></text></staticText>
+            <staticText><reportElement mode="Opaque" x="305" y="0" width="80" height="25" backcolor="#2ECC71" forecolor="#FFFFFF"/><textElement textAlignment="Right" verticalAlignment="Middle"><font isBold="true"/></textElement><text><![CDATA[Descontos]]></text></staticText>
+            <staticText><reportElement mode="Opaque" x="385" y="0" width="85" height="25" backcolor="#2ECC71" forecolor="#FFFFFF"/><textElement textAlignment="Right" verticalAlignment="Middle"><font isBold="true"/></textElement><text><![CDATA[Líquido]]></text></staticText>
+            <staticText><reportElement mode="Opaque" x="470" y="0" width="85" height="25" backcolor="#2ECC71" forecolor="#FFFFFF"/><textElement textAlignment="Right" verticalAlignment="Middle"><font isBold="true"/></textElement><text><![CDATA[Ticket Médio  ]]></text></staticText>
+        </band>
+    </columnHeader>
+
+    <detail>
+        <band height="22">
+            <textField><reportElement x="0" y="0" width="165" height="22"/><textElement verticalAlignment="Middle"/><textFieldExpression><![CDATA["  " + $F{vendedor}]]></textFieldExpression></textField>
+            <textField><reportElement x="165" y="0" width="55" height="22"/><textElement textAlignment="Center" verticalAlignment="Middle"/><textFieldExpression><![CDATA[$F{qtdVendas}]]></textFieldExpression></textField>
+            <textField pattern="R$ #,##0.00"><reportElement x="220" y="0" width="85" height="22"/><textElement textAlignment="Right" verticalAlignment="Middle"/><textFieldExpression><![CDATA[$F{bruto}]]></textFieldExpression></textField>
+            <textField pattern="R$ #,##0.00"><reportElement x="305" y="0" width="80" height="22"/><textElement textAlignment="Right" verticalAlignment="Middle"/><textFieldExpression><![CDATA[$F{descontos}]]></textFieldExpression></textField>
+            <textField pattern="R$ #,##0.00"><reportElement x="385" y="0" width="85" height="22"/><textElement textAlignment="Right" verticalAlignment="Middle"/><textFieldExpression><![CDATA[$F{liquido}]]></textFieldExpression></textField>
+            <textField pattern="R$ #,##0.00"><reportElement x="470" y="0" width="85" height="22"/><textElement textAlignment="Right" verticalAlignment="Middle"/><textFieldExpression><![CDATA[$F{ticketMedio}]]></textFieldExpression></textField>
+        </band>
+    </detail>
+
+    <summary>
+        <band height="260">
+            <textField>
+                <reportElement mode="Opaque" x="0" y="5" width="555" height="26" backcolor="#ECF0F1"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle"><font size="11" isBold="true"/></textElement>
+                <textFieldExpression><![CDATA["TOTAL LÍQUIDO DA EQUIPE: R$ " + new java.text.DecimalFormat("#,##0.00").format($V{TOTAL_LIQUIDO} != null ? $V{TOTAL_LIQUIDO} : 0.0) + "  "]]></textFieldExpression>
+            </textField>
+            <barChart>
+                <chart evaluationTime="Report">
+                    <reportElement x="20" y="40" width="515" height="210"/>
+                    <chartTitle><titleExpression><![CDATA["Comparativo de Vendas Líquidas por Vendedor (R$)"]]></titleExpression></chartTitle>
+                    <chartSubtitle/>
+                    <chartLegend/>
+                </chart>
+                <categoryDataset>
+                    <categorySeries>
+                        <seriesExpression><![CDATA["Venda Líquida (R$)"]]></seriesExpression>
+                        <categoryExpression><![CDATA[$F{vendedor}]]></categoryExpression>
+                        <valueExpression><![CDATA[$F{liquido}]]></valueExpression>
+                    </categorySeries>
+                </categoryDataset>
+                <barPlot>
+                    <plot/>
+                    <itemLabel/>
+                    <categoryAxisFormat><axisFormat/></categoryAxisFormat>
+                    <valueAxisFormat><axisFormat/></valueAxisFormat>
+                </barPlot>
+            </barChart>
+        </band>
+    </summary>
+</jasperReport>

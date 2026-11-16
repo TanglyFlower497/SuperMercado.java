@@ -16,6 +16,7 @@
         <li><a href="${pageContext.request.contextPath}${URL_BASE}/VendaControlador?opcao=cancelar">VENDA</a></li>
         <li><a href="${pageContext.request.contextPath}${URL_BASE}/ItensvendaControlador?opcao=cancelar">ITENSVENDA</a></li>
         <li><a href="${pageContext.request.contextPath}${URL_BASE}/ItenscompraControlador?opcao=cancelar">ITENSCOMPRA</a></li>
+        <li><a href="${pageContext.request.contextPath}/Relatorios.jsp">RELATÓRIOS</a></li>
         <c:if test="${empty sessionScope.usuarioLogado}">
             <li><a href="${pageContext.request.contextPath}/login.jsp">LOGIN</a></li>
         </c:if>

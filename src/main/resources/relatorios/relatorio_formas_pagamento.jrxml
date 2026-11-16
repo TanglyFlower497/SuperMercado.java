@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="relatorio_formas_pagamento" pageWidth="595" pageHeight="842" columnWidth="555"
+              leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+
+    <parameter name="DATA_INICIO" class="java.sql.Date"/>
+    <parameter name="DATA_FIM" class="java.sql.Date"/>
+    <parameter name="USUARIO_EMISSOR" class="java.lang.String"/>
+
+    <queryString>
+        <![CDATA[
+        SELECT fp.descricao AS formaPagamento,
+               COUNT(v.codVenda) AS transacoes,
+               COALESCE(SUM(v.total), 0) AS bruto,
+               COALESCE(SUM(v.desconto), 0) AS descontos,
+               COALESCE(SUM(v.total - v.desconto), 0) AS liquido
+        FROM formapagamento fp
+        INNER JOIN venda v ON fp.codFormaPagamento = v.codFormaPagamento
+        WHERE DATE(v.data) BETWEEN $P{DATA_INICIO} AND $P{DATA_FIM}
+        GROUP BY fp.codFormaPagamento, fp.descricao
+        ORDER BY liquido DESC
+        ]]>
+    </queryString>
+
+    <field name="formaPagamento" class="java.lang.String"/>
+    <field name="transacoes" class="java.lang.Long"/>
+    <field name="bruto" class="java.lang.Double"/>
+    <field name="descontos" class="java.lang.Double"/>
+    <field name="liquido" class="java.lang.Double"/>
+
+    <variable name="TOTAL_RECEBIDO" class="java.lang.Double" calculation="Sum">
+        <variableExpression><![CDATA[$F{liquido}]]></variableExpression>
+    </variable>
+
+    <title>
+        <band height="70">
+            <rectangle>
+                <reportElement x="0" y="0" width="555" height="62" backcolor="#2C3E50"/>
+            </rectangle>
+            <staticText>
+                <reportElement x="15" y="10" width="525" height="22" forecolor="#FFFFFF"/>
+                <textElement><font size="15" isBold="true"/></textElement>
+                <text><![CDATA[ATACADÃO - 04. RECEBIMENTOS POR FORMA DE PAGAMENTO]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="15" y="36" width="525" height="18" forecolor="#ECF0F1"/>
+                <textElement><font size="10"/></textElement>
+                <textFieldExpression><![CDATA["Período: " + new java.text.SimpleDateFormat("dd/MM/yyyy").format($P{DATA_INICIO}) + " a " + new java.text.SimpleDateFormat("dd/MM/yyyy").format($P{DATA_FIM}) + " | Emitido por: " + $P{USUARIO_EMISSOR}]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+
+    <columnHeader>
+        <band height="25">
+            <staticText><reportElement mode="Opaque" x="0" y="0" width="185" height="25" backcolor="#2ECC71" forecolor="#FFFFFF"/><textElement verticalAlignment="Middle"><font isBold="true"/></textElement><text><![CDATA[  Forma de Pagamento]]></text></staticText>
+            <staticText><reportElement mode="Opaque" x="185" y="0" width="80" height="25" backcolor="#2ECC71" forecolor="#FFFFFF"/><textElement textAlignment="Center" verticalAlignment="Middle"><font isBold="true"/></textElement><text><![CDATA[Transações]]></text></staticText>
+            <staticText><reportElement mode="Opaque" x="265" y="0" width="95" height="25" backcolor="#2ECC71" forecolor="#FFFFFF"/><textElement textAlignment="Right" verticalAlignment="Middle"><font isBold="true"/></textElement><text><![CDATA[Total Bruto]]></text></staticText>
+            <staticText><reportElement mode="Opaque" x="360" y="0" width="90" height="25" backcolor="#2ECC71" forecolor="#FFFFFF"/><textElement textAlignment="Right" verticalAlignment="Middle"><font isBold="true"/></textElement><text><![CDATA[Descontos]]></text></staticText>
+            <staticText><reportElement mode="Opaque" x="450" y="0" width="105" height="25" backcolor="#2ECC71" forecolor="#FFFFFF"/><textElement textAlignment="Right" verticalAlignment="Middle"><font isBold="true"/></textElement><text><![CDATA[Valor Líquido  ]]></text></staticText>
+        </band>
+    </columnHeader>
+
+    <detail>
+        <band height="22">
+            <textField><reportElement x="0" y="0" width="185" height="22"/><textElement verticalAlignment="Middle"/><textFieldExpression><![CDATA["  " + $F{formaPagamento}]]></textFieldExpression></textField>
+            <textField><reportElement x="185" y="0" width="80" height="22"/><textElement textAlignment="Center" verticalAlignment="Middle"/><textFieldExpression><![CDATA[$F{transacoes}]]></textFieldExpression></textField>
+            <textField pattern="R$ #,##0.00"><reportElement x="265" y="0" width="95" height="22"/><textElement textAlignment="Right" verticalAlignment="Middle"/><textFieldExpression><![CDATA[$F{bruto}]]></textFieldExpression></textField>
+            <textField pattern="R$ #,##0.00"><reportElement x="360" y="0" width="90" height="22"/><textElement textAlignment="Right" verticalAlignment="Middle"/><textFieldExpression><![CDATA[$F{descontos}]]></textFieldExpression></textField>
+            <textField pattern="R$ #,##0.00"><reportElement x="450" y="0" width="105" height="22"/><textElement textAlignment="Right" verticalAlignment="Middle"/><textFieldExpression><![CDATA[$F{liquido}]]></textFieldExpression></textField>
+        </band>
+    </detail>
+
+    <summary>
+        <band height="260">
+            <textField>
+                <reportElement mode="Opaque" x="0" y="5" width="555" height="26" backcolor="#ECF0F1"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle"><font size="11" isBold="true"/></textElement>
+                <textFieldExpression><![CDATA["TOTAL RECEBIDO LÍQUIDO: R$ " + new java.text.DecimalFormat("#,##0.00").format($V{TOTAL_RECEBIDO} != null ? $V{TOTAL_RECEBIDO} : 0.0) + "  "]]></textFieldExpression>
+            </textField>
+            <pieChart>
+                <chart evaluationTime="Report">
+                    <reportElement x="30" y="40" width="495" height="210"/>
+                    <chartTitle><titleExpression><![CDATA["Distribuição Financeira por Meio de Pagamento"]]></titleExpression></chartTitle>
+                    <chartSubtitle/>
+                    <chartLegend/>
+                </chart>
+                <pieDataset>
+                    <keyExpression><![CDATA[$F{formaPagamento}]]></keyExpression>
+                    <valueExpression><![CDATA[$F{liquido}]]></valueExpression>
+                </pieDataset>
+                <piePlot isShowLabels="true">
+                    <plot/>
+                    <itemLabel/>
+                </piePlot>
+            </pieChart>
+        </band>
+    </summary>
+</jasperReport>

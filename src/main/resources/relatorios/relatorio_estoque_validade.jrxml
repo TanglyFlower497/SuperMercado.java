@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="relatorio_estoque_validade" pageWidth="595" pageHeight="842" columnWidth="555"
+              leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+
+    <parameter name="USUARIO_EMISSOR" class="java.lang.String"/>
+
+    <queryString>
+        <![CDATA[
+        SELECT p.codigoBarras,
+               p.nome,
+               c.nome AS categoria,
+               p.estoque,
+               p.estoqueMinimo,
+               p.validade,
+               DATEDIFF(p.validade, CURDATE()) AS diasVencer,
+               (p.estoque * p.custo) AS capitalRisco,
+               CASE
+                   WHEN p.validade < CURDATE() THEN 'VENCIDO'
+                   WHEN p.validade <= DATE_ADD(CURDATE(), INTERVAL 30 DAY) THEN 'VENCE EM 30D'
+                   ELSE 'ESTOQUE CRÍTICO'
+               END AS statusAlerta
+        FROM produto p
+        INNER JOIN categoria c ON p.codCategoria = c.codCategoria
+        WHERE p.estoque <= p.estoqueMinimo
+           OR p.validade <= DATE_ADD(CURDATE(), INTERVAL 30 DAY)
+        ORDER BY p.validade ASC, p.estoque ASC
+        ]]>
+    </queryString>
+
+    <field name="codigoBarras" class="java.lang.String"/>
+    <field name="nome" class="java.lang.String"/>
+    <field name="categoria" class="java.lang.String"/>
+    <field name="estoque" class="java.lang.Integer"/>
+    <field name="estoqueMinimo" class="java.lang.Integer"/>
+    <field name="validade" class="java.sql.Date"/>
+    <field name="diasVencer" class="java.lang.Long"/>
+    <field name="capitalRisco" class="java.lang.Double"/>
+    <field name="statusAlerta" class="java.lang.String"/>
+
+    <variable name="TOTAL_CAPITAL_RISCO" class="java.lang.Double" calculation="Sum">
+        <variableExpression><![CDATA[$F{capitalRisco}]]></variableExpression>
+    </variable>
+
+    <title>
+        <band height="70">
+            <rectangle>
+                <reportElement x="0" y="0" width="555" height="62" backcolor="#C0392B"/>
+            </rectangle>
+            <staticText>
+                <reportElement x="15" y="10" width="525" height="22" forecolor="#FFFFFF"/>
+                <textElement><font size="15" isBold="true"/></textElement>
+                <text><![CDATA[ATACADÃO - 03. ALERTA DE ESTOQUE CRÍTICO E VALIDADE]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="15" y="36" width="525" height="18" forecolor="#FADBD8"/>
+                <textElement><font size="10"/></textElement>
+                <textFieldExpression><![CDATA["Data Base: " + new java.text.SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date()) + " | Emitido por: " + $P{USUARIO_EMISSOR}]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+
+    <columnHeader>
+        <band height="25">
+            <staticText><reportElement mode="Opaque" x="0" y="0" width="160" height="25" backcolor="#2C3E50" forecolor="#FFFFFF"/><textElement verticalAlignment="Middle"><font isBold="true"/></textElement><text><![CDATA[  Produto]]></text></staticText>
+            <staticText><reportElement mode="Opaque" x="160" y="0" width="55" height="25" backcolor="#2C3E50" forecolor="#FFFFFF"/><textElement textAlignment="Center" verticalAlignment="Middle"><font isBold="true"/></textElement><text><![CDATA[Atual]]></text></staticText>
+            <staticText><reportElement mode="Opaque" x="215" y="0" width="55" height="25" backcolor="#2C3E50" forecolor="#FFFFFF"/><textElement textAlignment="Center" verticalAlignment="Middle"><font isBold="true"/></textElement><text><![CDATA[Mín.]]></text></staticText>
+            <staticText><reportElement mode="Opaque" x="270" y="0" width="75" height="25" backcolor="#2C3E50" forecolor="#FFFFFF"/><textElement textAlignment="Center" verticalAlignment="Middle"><font isBold="true"/></textElement><text><![CDATA[Validade]]></text></staticText>
+            <staticText><reportElement mode="Opaque" x="345" y="0" width="110" height="25" backcolor="#2C3E50" forecolor="#FFFFFF"/><textElement textAlignment="Center" verticalAlignment="Middle"><font isBold="true"/></textElement><text><![CDATA[Situação]]></text></staticText>
+            <staticText><reportElement mode="Opaque" x="455" y="0" width="100" height="25" backcolor="#2C3E50" forecolor="#FFFFFF"/><textElement textAlignment="Right" verticalAlignment="Middle"><font isBold="true"/></textElement><text><![CDATA[Custo Estoque  ]]></text></staticText>
+        </band>
+    </columnHeader>
+
+    <detail>
+        <band height="22">
+            <textField><reportElement x="0" y="0" width="160" height="22"/><textElement verticalAlignment="Middle"/><textFieldExpression><![CDATA["  " + $F{nome}]]></textFieldExpression></textField>
+            <textField><reportElement x="160" y="0" width="55" height="22"/><textElement textAlignment="Center" verticalAlignment="Middle"/><textFieldExpression><![CDATA[$F{estoque}]]></textFieldExpression></textField>
+            <textField><reportElement x="215" y="0" width="55" height="22"/><textElement textAlignment="Center" verticalAlignment="Middle"/><textFieldExpression><![CDATA[$F{estoqueMinimo}]]></textFieldExpression></textField>
+            <textField pattern="dd/MM/yyyy"><reportElement x="270" y="0" width="75" height="22"/><textElement textAlignment="Center" verticalAlignment="Middle"/><textFieldExpression><![CDATA[$F{validade}]]></textFieldExpression></textField>
+            <textField><reportElement x="345" y="0" width="110" height="22" forecolor="#C0392B"/><textElement textAlignment="Center" verticalAlignment="Middle"><font isBold="true"/></textElement><textFieldExpression><![CDATA[$F{statusAlerta}]]></textFieldExpression></textField>
+            <textField pattern="R$ #,##0.00"><reportElement x="455" y="0" width="100" height="22"/><textElement textAlignment="Right" verticalAlignment="Middle"/><textFieldExpression><![CDATA[$F{capitalRisco}]]></textFieldExpression></textField>
+        </band>
+    </detail>
+
+    <summary>
+        <band height="35">
+            <textField>
+                <reportElement mode="Opaque" x="0" y="5" width="555" height="26" backcolor="#FADBD8"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle"><font size="11" isBold="true"/></textElement>
+                <textFieldExpression><![CDATA["CAPITAL TOTAL EM ITENS CRÍTICOS: R$ " + new java.text.DecimalFormat("#,##0.00").format($V{TOTAL_CAPITAL_RISCO} != null ? $V{TOTAL_CAPITAL_RISCO} : 0.0) + "  "]]></textFieldExpression>
+            </textField>
+        </band>
+    </summary>
+</jasperReport>
